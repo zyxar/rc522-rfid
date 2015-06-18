@@ -67,7 +67,7 @@ void RunCallback(const FunctionCallbackInfo<Value>& args) {
         // recently detected tag the callback will be executed with the serial number
         if (strcmp(rfidChipSerialNumberRecentlyDetected, rfidChipSerialNumber) != 0) {
             Local<Value> argv[argc] = {
-                String::NewFromUtf8(isolate, &rfidChipSerialNumber[1])
+                String::NewFromUtf8(isolate, &rfidChipSerialNumber[0])
             };
 
             callback->Call(isolate->GetCurrentContext()->Global(), argc, argv);
