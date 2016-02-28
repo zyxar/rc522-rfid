@@ -16,9 +16,9 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    tag_stat find_tag(uint16_t *);
-    tag_stat select_tag_sn(uint8_t * sn, uint8_t * len);
-    tag_stat read_tag_str(uint8_t addr, char * str);
+tag_stat find_tag(uint16_t *);
+tag_stat select_tag_sn(uint8_t *sn, uint8_t *len);
+tag_stat read_tag_str(uint8_t addr, char *str);
 #ifdef __cplusplus
 }
 #endif
