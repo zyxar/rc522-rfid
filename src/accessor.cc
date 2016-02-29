@@ -1,13 +1,16 @@
+#include "rc522.h"
+#include "rfid.h"
+
+#include <bcm2835.h>
 #include <node.h>
 #include <v8.h>
 #include <unistd.h>
-#include "rfid.h"
-#include "rc522.h"
-#include "bcm2835.h"
+#include <string.h>
+#include <stdlib.h>
 
 #define DEFAULT_SPI_SPEED 5000L
 
-uint8_t initRfidReader(void);
+bool initRfidReader(void);
 
 char statusRfidReader;
 uint16_t CType = 0;
@@ -92,17 +95,17 @@ void RunCallback(const FunctionCallbackInfo<Value> &args) {
 }
 
 void Init(Handle<Object> exports, Handle<Object> module) {
-  initRfidReader();
+  if (!initRfidReader()) {
+    exit(1);
+  }
   NODE_SET_METHOD(module, "exports", RunCallback);
 }
 
-uint8_t initRfidReader(void) {
-  uint16_t sp;
-
-  sp = (uint16_t)(250000L / DEFAULT_SPI_SPEED);
+bool initRfidReader(void) {
   if (!bcm2835_init()) {
-    return 1;
+    return false;
   }
+  uint16_t sp = (uint16_t)(250000L / DEFAULT_SPI_SPEED);
 
   bcm2835_spi_begin();
   bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_MSBFIRST); // The default
@@ -110,7 +113,7 @@ uint8_t initRfidReader(void) {
   bcm2835_spi_setClockDivider(sp);                         // The default
   bcm2835_spi_chipSelect(BCM2835_SPI_CS0);                 // The default
   bcm2835_spi_setChipSelectPolarity(BCM2835_SPI_CS0, LOW); // the default
-  return 0;
+  return true;
 }
 
 NODE_MODULE(rc522, Init)

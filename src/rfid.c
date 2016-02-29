@@ -5,6 +5,8 @@
  *      Author: alexs
  */
 #include "rfid.h"
+#include <string.h>
+#include <stdio.h>
 
 uint8_t buff[MAXRLEN];
 

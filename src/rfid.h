@@ -8,10 +8,7 @@
 #ifndef RFID_H_
 #define RFID_H_
 
-#include <string.h>
 #include "rc522.h"
-#include <stdint.h>
-#include <stdio.h>
 
 #ifdef __cplusplus
 extern "C" {
